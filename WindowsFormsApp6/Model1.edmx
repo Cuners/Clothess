@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="UserSet" EntityType="Model1.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ManagerSet" EntityType="Model1.Store.ManagerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BuyerSet" EntityType="Model1.Store.BuyerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PokupkaSet" EntityType="Model1.Store.PokupkaSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserManager" Association="Model1.Store.UserManager">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Manager" EntitySet="ManagerSet" />
+    </AssociationSet>
+    <AssociationSet Name="UserBuyer" Association="Model1.Store.UserBuyer">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Buyer" EntitySet="BuyerSet" />
+    </AssociationSet>
+    <AssociationSet Name="BuyerManager" Association="Model1.Store.BuyerManager">
+      <End Role="Buyer" EntitySet="BuyerSet" />
+      <End Role="Manager" EntitySet="ManagerSet" />
+    </AssociationSet>
+    <AssociationSet Name="ManagerPokupka" Association="Model1.Store.ManagerPokupka">
+      <End Role="Manager" EntitySet="ManagerSet" />
+      <End Role="Pokupka" EntitySet="PokupkaSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ManagerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Salary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="true" />
+    <Property Name="Buyer_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="BuyerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Pasport" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PokupkaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Tovar" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Manager_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserManager">
+    <End Role="User" Type="Model1.Store.UserSet" Multiplicity="0..1" />
+    <End Role="Manager" Type="Model1.Store.ManagerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Manager">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserBuyer">
+    <End Role="User" Type="Model1.Store.UserSet" Multiplicity="0..1" />
+    <End Role="Buyer" Type="Model1.Store.BuyerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Buyer">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BuyerManager">
+    <End Role="Buyer" Type="Model1.Store.BuyerSet" Multiplicity="0..1" />
+    <End Role="Manager" Type="Model1.Store.ManagerSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buyer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Manager">
+        <PropertyRef Name="Buyer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ManagerPokupka">
+    <End Role="Manager" Type="Model1.Store.ManagerSet" Multiplicity="1" />
+    <End Role="Pokupka" Type="Model1.Store.PokupkaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manager">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pokupka">
+        <PropertyRef Name="Manager_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSet" EntityType="Model1.User" />
+          <EntitySet Name="ManagerSet" EntityType="Model1.Manager" />
+          <EntitySet Name="BuyerSet" EntityType="Model1.Buyer" />
+          <EntitySet Name="PokupkaSet" EntityType="Model1.Pokupka" />
+          <AssociationSet Name="UserManager" Association="Model1.UserManager">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Manager" EntitySet="ManagerSet" />
+          </AssociationSet>
+          <AssociationSet Name="UserBuyer" Association="Model1.UserBuyer">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Buyer" EntitySet="BuyerSet" />
+          </AssociationSet>
+          <AssociationSet Name="BuyerManager" Association="Model1.BuyerManager">
+            <End Role="Buyer" EntitySet="BuyerSet" />
+            <End Role="Manager" EntitySet="ManagerSet" />
+          </AssociationSet>
+          <AssociationSet Name="ManagerPokupka" Association="Model1.ManagerPokupka">
+            <End Role="Manager" EntitySet="ManagerSet" />
+            <End Role="Pokupka" EntitySet="PokupkaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Role" Type="String" Nullable="false" />
+          <NavigationProperty Name="Manager" Relationship="Model1.UserManager" FromRole="User" ToRole="Manager" />
+          <NavigationProperty Name="Buyer" Relationship="Model1.UserBuyer" FromRole="User" ToRole="Buyer" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Salary" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model1.UserManager" FromRole="Manager" ToRole="User" />
+          <NavigationProperty Name="Buyer" Relationship="Model1.BuyerManager" FromRole="Manager" ToRole="Buyer" />
+          <NavigationProperty Name="Pokupka" Relationship="Model1.ManagerPokupka" FromRole="Manager" ToRole="Pokupka" />
+        </EntityType>
+        <EntityType Name="Buyer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Pasport" Type="String" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Model1.UserBuyer" FromRole="Buyer" ToRole="User" />
+          <NavigationProperty Name="Manager" Relationship="Model1.BuyerManager" FromRole="Buyer" ToRole="Manager" />
+        </EntityType>
+        <EntityType Name="Pokupka">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tovar" Type="String" Nullable="false" />
+          <Property Name="Price" Type="String" Nullable="false" />
+          <NavigationProperty Name="Manager" Relationship="Model1.ManagerPokupka" FromRole="Pokupka" ToRole="Manager" />
+        </EntityType>
+        <Association Name="UserManager">
+          <End Type="Model1.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model1.Manager" Role="Manager" Multiplicity="0..1" />
+        </Association>
+        <Association Name="UserBuyer">
+          <End Type="Model1.User" Role="User" Multiplicity="0..1" />
+          <End Type="Model1.Buyer" Role="Buyer" Multiplicity="0..1" />
+        </Association>
+        <Association Name="BuyerManager">
+          <End Type="Model1.Buyer" Role="Buyer" Multiplicity="0..1" />
+          <End Type="Model1.Manager" Role="Manager" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ManagerPokupka">
+          <End Type="Model1.Manager" Role="Manager" Multiplicity="1" />
+          <End Type="Model1.Pokupka" Role="Pokupka" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ManagerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Manager)">
+        <MappingFragment StoreEntitySet="ManagerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BuyerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Buyer)">
+        <MappingFragment StoreEntitySet="BuyerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PokupkaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Pokupka)">
+        <MappingFragment StoreEntitySet="PokupkaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Tovar" ColumnName="Tovar" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserManager" TypeName="Model1.UserManager" StoreEntitySet="ManagerSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Manager">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserBuyer" TypeName="Model1.UserBuyer" StoreEntitySet="BuyerSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Buyer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="BuyerManager" TypeName="Model1.BuyerManager" StoreEntitySet="ManagerSet">
+      <EndProperty Name="Buyer">
+        <ScalarProperty Name="Id" ColumnName="Buyer_Id" />
+      </EndProperty>
+      <EndProperty Name="Manager">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Buyer_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ManagerPokupka" TypeName="Model1.ManagerPokupka" StoreEntitySet="PokupkaSet">
+      <EndProperty Name="Manager">
+        <ScalarProperty Name="Id" ColumnName="Manager_Id" />
+      </EndProperty>
+      <EndProperty Name="Pokupka">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
